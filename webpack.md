@@ -15,3 +15,9 @@
 * mode（模式）
   * 开发模式：development
   * 生产模式：production
+
+# webpack基本配置
+
+项目的**根目录**中建立webpack配置文件：`webpack.config.js`
+
+里面用CommonJS（node的模块化规范）的语法暴露webpack配置对象：`module.exports = {...}`
