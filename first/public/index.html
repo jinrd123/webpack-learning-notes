@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>webpack</title>
+</head>
+<body>
+    <h1>webpack测试</h1>
+    <!-- <script src="../src/main.js"></script> -->
+    <script src="../dist/main.js"></script>
+    <!-- 此时我们项目中没有配置webpack，浏览器打开此html页面之后控制台会报错，因为main.js中使用了import，ES6的模块化语法浏览器是不识别的 -->
+    <!-- *
+    引入webpack包：
+        1.npm init -y 生成包配置文件
+        2.npm install webpack webpack-cli -D 安装包
+            webpack-cli:webpack的命令行接口（安装之后我们就可以在命令行运行webpack） -D:生产环境安装
+        3.npx webpack ./src/main.js --mode=development 执行webpack指令进行打包，打包./src/main.js（生成压缩文件并编译浏览器不能识别的模块化语法）
+            npx:执行node_modules中的可执行文件
+            --mode=development:使用打包的开发模式，当然也可以使用生产模式：--mode=production，生产模式除了编译还会对代码进行压缩
+        4.打包完成，生成了dist文件夹，里面有一个打包之后的main.js，然后我们把上面script标签的src连接这个新生成的main.js浏览器就可以正常运行了（控制台输出了10）
+            其实本次webpack编译，只编译了模块化语法，ES6的箭头函数等语法都是没有编译的
+    * -->
+</body>
+</html>
