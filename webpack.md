@@ -69,3 +69,6 @@ module.exports = {
 };
 ~~~
 
+# 处理Sass（Scss）资源
+
+以及处理stylus类型的样式文件，都完全同上：安装相关loader并在webpack.config.js中进行配置
