@@ -14,6 +14,18 @@ module.exports = {
     module: {
         rules: [
             //loader的配置
+            {
+                test: /\.css$/, //检测以.css结尾的文件，对这种文件应用以下loader
+                //ues配置项中loader的执行顺序：从后往前，即先执行css-loader
+                use: [ 
+                    'style-loader',
+                    'css-loader' ,
+                    /*
+                        css-loader:把css文件中的@import和url语句索引的css文件处理成css模块并在css-loader处理的css文件中引入，并将正在处理的css文件转化成一个commonjs规范的js模块
+                        style-loader:把css-loader生成的js语言的样式生成一个<script>标签自动添加到html页面中（前提是html页面引入了我们webpack打包生成的文件）
+                    */
+                ]
+            },
         ],
     },
     //插件
