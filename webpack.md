@@ -47,3 +47,25 @@
 ~~~
 
 打包：`npx webpack`
+
+# 处理less资源
+
+~~~js
+// webpack.config.js
+module.exports = {
+    ...
+    module: {
+        rules: [
+            {
+                test: /\.less$/,
+                use: [
+                    "style-loader",//为css的js文件创建script标签添加到页面中
+                    "css-loader",//css文件编译为commonjs模块
+                    'less-loader',//将less文件编译为css文件
+                ]
+        	}
+        ]
+    }
+};
+~~~
+
