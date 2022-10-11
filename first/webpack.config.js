@@ -8,7 +8,7 @@ module.exports = {
         //path指明文件的输出路径
         path: path.resolve(__dirname, 'dist'), //path.resolve构造绝对路径
         //文件名
-        filename: 'main.js'
+        filename: 'static/js/main.js'
     },
     //加载器
     module: {
@@ -26,6 +26,26 @@ module.exports = {
                     */
                 ]
             },
+            {
+                test: /\.(png|jpe?g|gif|webp)$/,
+                type: "asset",
+                parser: {
+                    dataUrlCondition: {
+                        maxSize: 5 * 1024, //5kb
+                    }
+                },
+                //generator.filename配置项指test配置项指定的文件经过webpack处理后输出的文件地址以及文件名
+                generator: {
+                    filename: 'static/images/[hash][ext][query]',
+                    /*
+                        输出到images文件夹下
+                        [hash]是一个唯一值，这里处理为文件名
+                        [ext]源文件的后缀名，这里不变，仍然处理为输出文件的后缀名
+                        [query]携带的参数，这里可有可无
+                        当然filename配置项指定的输出位置是以output配置项的path指定的路径为基础的（也就是说经过路径组合，图片资源最终输出位置为__dirname/dist/static/images）
+                    */
+                }
+            }
         ],
     },
     //插件

@@ -1,0 +1,7 @@
+#container {
+    width: 100px;
+    height: 110px;
+    background-color: pink;
+    background: url('../images/ikun.webp') no-repeat;
+    background-size: 100% 100%;
+}

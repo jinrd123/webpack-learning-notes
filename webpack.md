@@ -114,3 +114,74 @@ webpack5已经将webpack4中处理图片资源的相关loader集成到webpack内
 ~~~
 
 经过这两个loader配置项之后，对于比较大的图片，正常打包（仍然是图片）,而对于小体积图片，不会生成打包图片，而是直接生成了base64格式的字符串。
+
+# 修改输出文件目录
+
+目前来说，我们执行`npx webpack`之后，所有被打包处理的资源全部输出到dist文件夹下，我们希望为图片以及js文件创建单独的文件夹进行输出。
+
+~~~js
+module.exports = {
+	...
+    output: {
+        //path指明文件的输出路径
+        path: path.resolve(__dirname, 'dist'), 
+        //文件名
+        filename: '/js/main.js'
+    },
+    ...
+}
+~~~
+
+* `output.path`：对于所有文件来说webpack处理后的输出位置
+* `output.filename`：**入口文件**经过webpack处理后输出的文件名
+
+如果我们配置`path: path.resolve(__dirname, 'dist/js')`，那么图片和main.js都输出到dist下的js文件夹里，我们只想让入口文件输出到js文件夹下，而不想让图片也输出到js文件夹下，所以我们配置filename项：`filename: 'js/main.js'`而path项不变，为dist。这样配置之后打包，结果为：dist下的js文件夹里存放main.js，图片资源直接存放在dist文件夹下。
+
+实际demo实现中稍作修改：让js文件夹外层为static文件夹（增加一层static文件夹）
+
+**然后我们增加一个loader配置对象用来匹配图片资源的打包相关信息**
+
+webpack配置对象结构：
+
+~~~js
+module.exports = {
+	...
+    module: {
+        rules: [
+            //loader的配置对象
+            {
+				...
+            },
+        ],
+    }
+    ...
+}
+~~~
+
+loader配置对象：
+
+~~~js
+{
+    test: /\.(png|jpe?g|gif|webp)$/,
+    type: "asset",
+    parser: {
+        dataUrlCondition: {
+            maxSize: 5 * 1024, //5kb
+        }
+    },
+    //generator.filename配置项指test配置项指定的文件经过webpack处理后输出的文件地址以及文件名
+    generator: {
+        filename: 'static/images/[hash:10][ext][query]',
+        /*
+            输出到images文件夹下
+            [hash]是一个唯一值，这里处理为文件名,:10表示只取十位
+            [ext]源文件的后缀名，这里不变，仍然处理为输出文件的后缀名
+            [query]携带的参数，这里可有可无
+        */
+    }
+}
+~~~
+
+**当然filename配置项指定的输出位置是以output配置项（webpack配置对象的顶层配置项）的path指定的路径为基础的（也就是说经过路径组合，图片资源最终输出位置为__dirname/dist/static/images）**。
+
+经过这两个配置之后，重新进行打包`npx webpack`，处理结果为static文件夹下存放images和js文件夹，里面分别存放打包处理后的图片和入口文件（main.js）。
