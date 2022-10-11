@@ -37,7 +37,7 @@ module.exports = {
                 },
                 //generator.filename配置项指test配置项指定的文件经过webpack处理后输出的文件地址以及文件名
                 generator: {
-                    filename: 'static/images/[hash][ext][query]',
+                    filename: 'static/images/[hash:10][ext][query]',
                     /*
                         输出到images文件夹下
                         [hash]是一个唯一值，这里处理为文件名
@@ -45,6 +45,16 @@ module.exports = {
                         [query]携带的参数，这里可有可无
                         当然filename配置项指定的输出位置是以output配置项的path指定的路径为基础的（也就是说经过路径组合，图片资源最终输出位置为__dirname/dist/static/images）
                     */
+                }
+            },
+            //字体文件相关的loader配置
+            {
+                test: /\.(ttf|woff2?)$/,
+                //不同于asset，asset会把小文件转base64，我们字体文件不需要转
+                type: "asset/resource",
+                //generator.filename配置项指test配置项指定的文件经过webpack处理后输出的文件地址以及文件名
+                generator: {
+                    filename: 'static/media/[hash:10][ext][query]',
                 }
             }
         ],

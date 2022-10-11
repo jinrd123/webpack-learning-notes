@@ -199,3 +199,39 @@ output: {
 },
 ~~~
 
+# webpack5资源模块类型(asset module type)
+
+通过添加 4 种新的模块类型替换掉了webpack5之前的相关loader
+
+也就是loader配置对象的type属性值：
+
+- `asset/resource` 发送一个单独的文件并导出 URL。之前通过使用 `file-loader` 实现。
+- `asset/inline` 导出一个资源的 data URI。之前通过使用 `url-loader` 实现。
+- `asset/source` 导出资源的源代码。之前通过使用 `raw-loader` 实现。
+- `asset` 在导出一个 data URI 和发送一个单独的文件之间自动选择。之前通过使用 `url-loader`，并且配置资源体积限制实现。
+
+**目前不是很理解具体的意义，但大致可以知道，处理图片时type值为asset，根据图片大小决定导出一个base64（dataURL）还是一个图片，然后字体图标资源用asset/resource，可能就是想确定性的输出一个文件。所以type配置项大概的功能应该就是决定输出的类型（输出一个文件，还是确定性输出dataURL，还是根据大小决定文件或者dataURL）**
+
+# 处理字体图标资源
+
+我们在项目中引入字体图标，并在webpack中进行打包
+
+字体图标的本地引入：
+
+阿里巴巴图标库中不使用生成代码，点击下载至本地，下载下来一个文件夹，把里面的css文件（iconfont.css）和三个字体文件（iconfont.ttf/.woff/.woff2）放到项目里即引入了完整的字体图标相关文件。
+
+我们在入口文件中引入css文件（iconfont.css），即可执行打包操作，因为我们配置了css处理相关的loader，这样css文件直接解析融合到js文件中，但是三个字体文件没有相关的loader配置。所以我们为字体文件配置loader：
+
+~~~js
+{
+    test: /\.(ttf|woff2?)$/,
+    //不同于asset，asset会把小文件转base64，我们字体文件不需要转
+    type: "asset/resource",
+    //generator.filename配置项指test配置项指定的文件经过webpack处理后输出的文件地址以及文件名
+    generator: {
+        //把二进制字体文件输出到media文件夹中
+        filename: 'static/media/[hash:10][ext][query]',
+    }
+}
+~~~
+

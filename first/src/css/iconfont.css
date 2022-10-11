@@ -1,0 +1,20 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 3697690 */
+  /*使用字体图标的本地存储，这里使用了三个字体文件，我们存放在fonts文件夹下*/
+  src: url('../fonts/iconfont.woff2?t=1665460140051') format('woff2'),
+       url('../fonts/iconfont.woff?t=1665460140051') format('woff'),
+       url('../fonts/iconfont.ttf?t=1665460140051') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-shuju-01:before {
+  content: "\e960";
+}
+
