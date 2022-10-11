@@ -185,3 +185,17 @@ loader配置对象：
 **当然filename配置项指定的输出位置是以output配置项（webpack配置对象的顶层配置项）的path指定的路径为基础的（也就是说经过路径组合，图片资源最终输出位置为__dirname/dist/static/images）**。
 
 经过这两个配置之后，重新进行打包`npx webpack`，处理结果为static文件夹下存放images和js文件夹，里面分别存放打包处理后的图片和入口文件（main.js）。
+
+# 打包前自动清空上次的打包内容
+
+目前每次打包前需要手动删除dist文件夹下的内容，希望执行`npx webpack`之前自动清空，给`output`增加配置项`output.clean`为`true`即可。
+
+~~~js
+output: {
+    path: path.resolve(__dirname, 'dist'), 
+    filename: 'static/js/main.js',
+    //打包前自动清空上次的打包内容
+    clean: true,
+},
+~~~
+
