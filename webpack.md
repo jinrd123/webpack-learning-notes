@@ -238,3 +238,89 @@ output: {
 # 处理其他资源
 
 比如mp3、mp4等资源，loader配置都用`type: "asset/resource"`输出一个单独的文件，可以输出到`/dist/static/media`文件夹，所以直接在上面字体资源相关的loader配置项的test属性里加相关文件类型即可（拓展）。
+
+# 处理js资源
+
+webpack本身的打包默认只能处理js的模块化语法，而其它一些js语法是不会处理的，比如箭头函数语法，当然这些语法浏览器也是不识别的，所以我们需要通过webpack的`Babel`处理js资源，进行兼容性处理。
+
+其次开发中，团队对代码的风格、格式是严格要求的，我们使用`Eslint`进行代码格式检测。
+
+所以js资源的处理有两步：**先完成Eslint，检测代码格式无误之后再由Babel做代码兼容性处理**。
+
+## Eslint配置
+
+我们使用Eslint就是写Eslint配置文件，里面写各种rules规则，将来运行Eslint时就会以写的规则对代码进行检查。
+
+### Eslint配置文件
+
+配置文件有很多种写法
+
+* `.eslintrc.*`：新建配置文件，位于项目根目录，有如下文件类型，区别在于配置格式不一样
+  * `.eslintrc`
+  * `.eslintrc.js`
+  * `.eslintrc.json`
+* 在`package.json`中配置`eslintConfig`配置项
+
+**Eslint会查找并自动读取它们，以上配置文件只需要存在一个即可。**
+
+下面我们选择js类型的独立配置文件（`.eslintrc.js`）对一些常见的配置规则进行学习。
+
+`.eslintrc.js`：
+
+~~~js
+module.exports =  {
+    //解析选项
+    parserOptions: {},
+    //具体检查规则
+    reluse: {},
+    //继承规则（规则集合）
+    extends: [],
+    //...
+}
+~~~
+
+1. `parserOptions`配置选项：
+
+~~~js
+parserOptions: {
+    ecmaVersion: 6, // ES 语法版本
+    sourceType: "module", // ES 模块化
+    ecmaFeatures: { // ES 其它特性
+        jsx: true //如果是 React 项目，就需要开启 jsx 语法
+    }
+}
+~~~
+
+2. `rules`配置选项：
+
+~~~js
+"rules": {
+    /*
+    	semi和quotes为规则名称，"quotes": "error"表示应用此规则并在违反quotes规则时程序报错
+    */
+    "semi": ["error", "always"],
+    "quotes": "error",
+}
+~~~
+
+rules规则对象里的键值对就是具体的规则配置，键代表规则名称，值一般取值为`"off"`、`"warn"`、`"error"`之一
+
+* `"off"`or`0`：不使用（关闭）规则（不使用键代表的那个规则）
+* `"warn"`or`1`：使用键代表的规则，违反时出现警告（不会影响代码运行，程序不退出）
+* `error`or`2`：使用键代表的规则，违反时程序报错并退出
+
+3. `extends`配置选项：
+
+~~~js
+extends: ["react-app"],
+~~~
+
+extends指定继承的rules规则集
+
+较为有名的规则集：
+
+* Eslint官方规则：`"eslint:recommended"`
+* Vue Cli官方规则：`"plugin:vue/essential"`
+* React Cli官方规则：`"react-app"`
+
+**rules配置项配置的规则优先级高于extends获得的规则，rules规则会对extends规则进行覆盖。**
