@@ -10,6 +10,26 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/js/sum.js":
+/*!***********************!*\
+  !*** ./src/js/sum.js ***!
+  \***********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ sum)\n/* harmony export */ });\nfunction sum() {\n  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {\n    args[_key] = arguments[_key];\n  }\n  return args.reduce(function (prev, currentValue) {\n    return prev + currentValue;\n  });\n}\n\n//# sourceURL=webpack://first/./src/js/sum.js?");
+
+/***/ }),
+
+/***/ "./src/main.js":
+/*!*********************!*\
+  !*** ./src/main.js ***!
+  \*********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _js_sum__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./js/sum */ \"./src/js/sum.js\");\n/* harmony import */ var _css_index_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./css/index.css */ \"./src/css/index.css\");\n/* harmony import */ var _css_iconfont_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./css/iconfont.css */ \"./src/css/iconfont.css\");\n\n//单纯引入样式文件，目的是进行打包\n\n//引入字体图标相关css\n\nconsole.log((0,_js_sum__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(1, 2, 3, 4));\n\n//# sourceURL=webpack://first/./src/main.js?");
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js!./src/css/iconfont.css":
 /*!********************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js!./src/css/iconfont.css ***!
@@ -137,26 +157,6 @@ eval("\n\n/* istanbul ignore next  */\nfunction apply(styleElement, options, obj
 /***/ ((module) => {
 
 eval("\n\n/* istanbul ignore next  */\nfunction styleTagTransform(css, styleElement) {\n  if (styleElement.styleSheet) {\n    styleElement.styleSheet.cssText = css;\n  } else {\n    while (styleElement.firstChild) {\n      styleElement.removeChild(styleElement.firstChild);\n    }\n\n    styleElement.appendChild(document.createTextNode(css));\n  }\n}\n\nmodule.exports = styleTagTransform;\n\n//# sourceURL=webpack://first/./node_modules/style-loader/dist/runtime/styleTagTransform.js?");
-
-/***/ }),
-
-/***/ "./src/js/sum.js":
-/*!***********************!*\
-  !*** ./src/js/sum.js ***!
-  \***********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ sum)\n/* harmony export */ });\nfunction sum(...args) {\r\n    return args.reduce((prev, currentValue) => {\r\n        return prev + currentValue;\r\n    })\r\n}\n\n//# sourceURL=webpack://first/./src/js/sum.js?");
-
-/***/ }),
-
-/***/ "./src/main.js":
-/*!*********************!*\
-  !*** ./src/main.js ***!
-  \*********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _js_sum__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./js/sum */ \"./src/js/sum.js\");\n/* harmony import */ var _css_index_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./css/index.css */ \"./src/css/index.css\");\n/* harmony import */ var _css_iconfont_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./css/iconfont.css */ \"./src/css/iconfont.css\");\n\r\n//单纯引入样式文件，目的是进行打包\r\n\r\n//引入字体图标相关css\r\n\r\n\r\nconsole.log((0,_js_sum__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(1, 2, 3, 4));\n\n//# sourceURL=webpack://first/./src/main.js?");
 
 /***/ }),
 

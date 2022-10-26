@@ -241,7 +241,7 @@ output: {
 
 # 处理js资源
 
-webpack本身的打包默认只能处理js的模块化语法，而其它一些js语法是不会处理的，比如箭头函数语法，当然这些语法浏览器也是不识别的，所以我们需要通过webpack的`Babel`处理js资源，进行兼容性处理。
+webpack本身的打包默认只能处理js的模块化语法，而其它一些js语法是不会处理的，比如箭头函数语法，当然这些语法(某些旧版本的)浏览器也是不识别的，所以我们需要通过webpack的`Babel`（一个webpack loader）处理js资源，进行兼容性处理。
 
 其次开发中，团队对代码的风格、格式是严格要求的，我们使用`Eslint`（一个webpack插件）进行代码格式检测。
 
@@ -351,3 +351,80 @@ module.exports = {
 ~~~
 
 3. 执行`npx webpack`命令（前提是我们已经配置了eslint配置文件—`.eslintrc.js`）
+
+## babel配置
+
+### babel配置文件
+
+babel配置文件也有多种写法：
+
+* `babel.config.*`：新建配置文件，位于项目的根目录
+  * `babel.config.js`
+  * `babel.config.json`
+* `.babelrc.*`：新建配置文件，位于项目的根目录
+  * `.babelrc`
+  * `.babelrc.js`
+  * `.babelrc.json`
+* `package.json`中配置`babel`配置项
+
+**Babel会查找并自动读取它们，以上配置文件只需要存在一个即可。**
+
+以`babel.config.js`为例：
+
+~~~js
+module.exports = {
+    // 预设
+    presets: [],
+}
+~~~
+
+1. presets（预设）配置选项：
+
+简单理解就是一组Babel插件，拓展Babel的功能
+
+* `"@babel/preset-env"`：一个智能预设，功能是允许使用最新的javascript。
+* `"@babel/preset-react"`：用来编译React jsx 语法的预设
+* `"@babel/preset-typescript"`：用来编译TypeScript语法的预设
+
+### babel基本使用
+
+1. 安装babel相关的包
+
+`npm install -D babel-loader @babel/core @babel/preset-env`
+
+2. webpack配置文件增加loader配置项
+
+~~~js
+{
+    /*
+    	babel主要处理js文件的ES6语法，所以test匹配js文件
+    */
+    test: /\.m?js$/,
+    /*
+    	排除node_modules文件夹下的js文件
+    */
+    exclude: /node_modules/,
+    /*
+    	使用'babel-loader'
+    */
+    loader: 'babel-loader',
+    /*
+    	等价于babel配置文件，有babel配置文件的话，options配置项可以省略
+    */
+    options: {
+        presets: ['@babel/preset-env']
+    }
+}
+~~~
+
+我们省略有关babel的loader配置项中的`options`，然后使用配置文件`babel.config.js`：
+
+~~~js
+module.exports = {
+    //简单使用一个智能预设：编译ES6的语法为更古老的语法，增加兼容性
+	presets: ['@babel/preset-env'],
+}
+~~~
+
+配置文件效果等价于loader中配置`options`
+
