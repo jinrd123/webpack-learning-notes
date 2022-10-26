@@ -146,7 +146,7 @@ eval("\n\n/* istanbul ignore next  */\nfunction styleTagTransform(css, styleElem
   \***********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ sum)\n/* harmony export */ });\nfunction sum(...args) {\r\n    return args.reduce((prev, currentValue, currentIndex, arr) => {\r\n        return prev + currentValue;\r\n    })\r\n}\n\n//# sourceURL=webpack://first/./src/js/sum.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ sum)\n/* harmony export */ });\nfunction sum(...args) {\r\n    return args.reduce((prev, currentValue) => {\r\n        return prev + currentValue;\r\n    })\r\n}\n\n//# sourceURL=webpack://first/./src/js/sum.js?");
 
 /***/ }),
 

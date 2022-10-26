@@ -243,7 +243,7 @@ output: {
 
 webpack本身的打包默认只能处理js的模块化语法，而其它一些js语法是不会处理的，比如箭头函数语法，当然这些语法浏览器也是不识别的，所以我们需要通过webpack的`Babel`处理js资源，进行兼容性处理。
 
-其次开发中，团队对代码的风格、格式是严格要求的，我们使用`Eslint`进行代码格式检测。
+其次开发中，团队对代码的风格、格式是严格要求的，我们使用`Eslint`（一个webpack插件）进行代码格式检测。
 
 所以js资源的处理有两步：**先完成Eslint，检测代码格式无误之后再由Babel做代码兼容性处理**。
 
@@ -324,3 +324,30 @@ extends指定继承的rules规则集
 * React Cli官方规则：`"react-app"`
 
 **rules配置项配置的规则优先级高于extends获得的规则，rules规则会对extends规则进行覆盖。**
+
+### Eslint基本使用
+
+webpack5中eslint功能作为一个**插件**提供
+
+1. 安装eslint相关插件：
+
+`npm install eslint-webpack-plugin eslint --save-dev`
+
+2. 在`webpack.config.js`中使用插件：
+
+~~~js
+const ESLintPlugin = require('eslint-webpack-plugin');
+
+module.exports = {
+  // ...
+  plugins: [new ESLintPlugin({//配置对象
+  	/*
+  		context配置项指定需要eslint进行语法检查的文件路径
+  	*/
+    context: path.resolve(__dirname, "src"),
+  })],
+  // ...
+};
+~~~
+
+3. 执行`npx webpack`命令（前提是我们已经配置了eslint配置文件—`.eslintrc.js`）
