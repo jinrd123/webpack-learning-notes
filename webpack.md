@@ -235,3 +235,6 @@ output: {
 }
 ~~~
 
+# 处理其他资源
+
+比如mp3、mp4等资源，loader配置都用`type: "asset/resource"`输出一个单独的文件，可以输出到`/dist/static/media`文件夹，所以直接在上面字体资源相关的loader配置项的test属性里加相关文件类型即可（拓展）。
