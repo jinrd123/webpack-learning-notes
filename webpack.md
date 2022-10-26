@@ -428,3 +428,29 @@ module.exports = {
 
 配置文件效果等价于loader中配置`options`
 
+# 处理Html资源
+
+我们目前在`public/index.html`文件中通过手动引入的方式引入了打包生成的main.js（`<script src="../dist/static/js/main.js"></script>`）。
+
+我们使用插件`HtmlWebpackPlugin`，作用是在dist文件夹下生成一个index.html，这个html文件内自动引入了我们打包生成的js文件。
+
+1. 安装相关包
+
+`npm install --save-dev html-webpack-plugin`
+
+2. webpack配置文件中引入并使用此插件即可
+
+~~~js
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+module.exports = {
+  ...
+  /*
+  	new HtmlWebpackPlugin()直接这样配置生成的index.html虽然引入了打包生成的js资源，但结构并没有保留，我们需要template属性指定生成的index.html以哪个html资源为模板
+  */
+  plugins: [new HtmlWebpackPlugin(
+  	template: path.resolve(__dirname, "public/index.html")
+  )],
+};
+~~~
+
+这样打包后在dist文件夹下生成了一个自动引入了打包的js资源的html文件，且结构与template指定的html文件相同。
