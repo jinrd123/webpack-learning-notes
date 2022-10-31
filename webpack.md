@@ -473,3 +473,43 @@ devServer: {
 3. 命令行执行：`npx webpack serve`
 
 注意：**执行npx webpack serve启动起来项目之后，（浏览器中）会根据代码的保存实时更新呈现效果，但并不会在项目的dist文件夹下真正的进行打包（dist文件夹内容不变，代码更新之后在服务器端进行实时打包并呈现）**。
+
+# 配置生产模式的webpack配置文件
+
+修改配置文件结构，根目录下创建config文件夹，下置`webpack.dev.js`和`webpack.prod.js`分别对应开发模式和生产模式下的webpack配置文件。
+
+## `config/webpack.dev.js`：
+
+因为webpack配置文件路径的改变，对`config/webpack.dev.js`进行修改（在原`webpack.config.js`基础上）：
+
+entry配置项：`entry: "./src/main.js"`使用的相对路径，无需修改，因为我们在执行打包命令时所在的位置还是根目录，进行开发模式打包：`npx webpack serve --config ./config/webpack.dev.js`，只是说我们在根目录执行打包命令，系统不会帮我们自动查询webpack配置文件了，需要我们用`--config`手动指明webpack配置文件的位置。对于打包命令来说，我们打包的位置还是在项目的根目录，所以`config/webpack.dev.js`中的相对路径无需修改。只需要修改所有的绝对路径即可（所有的`path.resolve(__dirname, "path")`修改为`path.resolve(__dirname, "../path")`）。
+
+因为开发模式没有输出（不会修改dist），所以`output`配置项的`path`属性可以设置为`undefined`，并删除`clean`属性（但是`filename`属性需要保留）。
+
+此时我们进行开发模式下的打包执行`npx webpack serve --config ./config/webpack.dev.js`即可。
+
+## `config/webpack.prod.js`：
+
+生产模式的修改类似，对所有的绝对路径进行修改，并且删除`devServer`配置项。因为生产模式下，我们打包需要真实的输出。
+
+**将`mode`配置项属性值改为`production`（两种模式的核心区别）**
+
+此时我们执行`npx webpack --config ./config/webpack.prod.js`即进行生产模式下的打包。生产模式下打包dist下输出的文件都是进行压缩后的。
+
+## 简化打包操作
+
+`package.json`中添加配置项：
+
+~~~JSON
+"scripts": {
+  "start": "npm run dev",
+  "dev": "webpack serve --config ./config/webpack.dev.js",
+  "build": "webpack --config ./config/webpack.prod.js"
+},
+~~~
+
+配置后：
+
+* `npm start` **==**`npm run dev`
+* `npm run dev`**==**`npx webpack serve --config ./config/webpack.dev.js`
+* `npm run build`**==**`npx webpack --config ./config/webpack.prod.js`

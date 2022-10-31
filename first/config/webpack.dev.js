@@ -8,10 +8,9 @@ module.exports = {
     //输出——与输出相关的是一个配置对象
     output: {
         //path指明文件的输出路径
-        path: path.resolve(__dirname, 'dist'), //path.resolve构造绝对路径
+        path: undefined,
         //文件名
         filename: 'static/js/main.js',
-        clean: true,
     },
     //加载器
     module: {
@@ -73,10 +72,10 @@ module.exports = {
             /*
                 context配置项指定需要eslint进行语法检查的文件路径
             */
-          context: path.resolve(__dirname, "src"),
+          context: path.resolve(__dirname, "../src"),
         }),
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, "public/index.html")
+            template: path.resolve(__dirname, "../public/index.html")
         })
     ],
     devServer: {
