@@ -1,6 +1,7 @@
 const path = require('path')
 const ESLintPlugin = require('eslint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
     //入口
@@ -21,7 +22,7 @@ module.exports = {
                 test: /\.css$/, //检测以.css结尾的文件，对这种文件应用以下loader
                 //ues配置项中loader的执行顺序：从后往前，即先执行css-loader
                 use: [ 
-                    'style-loader',
+                    MiniCssExtractPlugin.loader,
                     'css-loader' ,
                     /*
                         css-loader:把css文件中的@import和url语句索引的css文件处理成css模块并在css-loader处理的css文件中引入，并将正在处理的css文件转化成一个commonjs规范的js模块
@@ -77,6 +78,12 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, "../public/index.html")
+        }),
+        new MiniCssExtractPlugin({
+            /*
+                filename指定dist文件夹下生成css文件的路径以及文件名
+            */
+            filename: "static/css/main.css"
         })
     ],
     //模式（生产or开发——压缩or不压缩）

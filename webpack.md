@@ -513,3 +513,34 @@ entry配置项：`entry: "./src/main.js"`使用的相对路径，无需修改，
 * `npm start` **==**`npm run dev`
 * `npm run dev`**==**`npx webpack serve --config ./config/webpack.dev.js`
 * `npm run build`**==**`npx webpack --config ./config/webpack.prod.js`
+
+# 提取CSS成单独文件解决闪屏现象
+
+## 闪屏现象：
+
+我们此前处理CSS资源是先用`css-loader`把CSS文件处理成js文件，然后再用`style-loader`将处理成js文件的CSS资源通过添加<script>标签的形式引入到HTML页面中。当我们运行HTML页面时，先处理HTML资源，所以我们会第一时间看到html结构，随后才解析js，但是如果网速较慢（手动切换为3G能清晰看到效果），解析js的时间较长，因为我们当前的CSS样式就是以js的形式作用以页面的，所以我们就没法第一时间看到样式，然后等js资源加载完毕，突然html结构获得样式，就是所谓的闪屏。
+
+## 解决方案：
+
+我们打包应该生成单独的CSS文件，然后通过<link>标签引入，这样性能才好。
+
+1. `npm install mini-css-extract-plugin -D`
+2. 生产模式配置文件中，引入插件，并将所有的`style-loader`替换成插件提供的loader-`MiniCssExtractPlugin.loader`，这个loader会提取css资源成一个单独的css文件
+
+3. 配置项中调用插件
+
+~~~js
+plugins: [
+    ...
+    new MiniCssExtractPlugin({
+        /*
+        	filename指定dist文件夹下生成css文件的路径以及文件名
+        */
+        filename: "static/css/main.css"
+    })
+]
+~~~
+
+4. 执行`npm run build`
+
+我们会发现`dist/index.html`中，通过<link>自动引入了`dist/static/css/main.css`。（这个自动引入的动作是前面`HtmlWebpackPlugin`插件的功能：自动引入打包生成的资源）
