@@ -133,3 +133,37 @@ module.exports.pitch = function(remainingRequest) {
 }
 ~~~
 
+
+
+# plugins
+
+说白了就是在webpack打包的各个生命周期中添加回调函数，从而增加webpack打包的逻辑，增强功能
+
+~~~js
+/*
+	1.webpack加载webpack.config.js中的所有配置，此时就会执行new xxxPlugin()，执行插件的constructor
+	2.webpack创建compiler对象，一个本次打包的唯一对象，上面记录了本次打包的所有信息，什么loader等等
+	3.遍历所有plugins中的插件实例，执行他们的apply方法
+		插件正是通过在apply方法中给webpack暴露出来的生命周期添加事件回调来发挥作用的
+	4.执行编译流程
+*/
+
+class TestPlugin {
+  construtor() {
+    console.log("webpack打包之前，读取webpack配置时就会输出");
+  }
+  apply(compiler) {
+    console.log("从此方法中给各个生命周期添加回调");
+    // 查文档即可，各个hook该如何注册，hook名是什么、回调的参数是什么、回调是异步的还是同步的（并行的还是串行的）
+    // compiler.hooks.someHook.tap(<plugin名>, <回调函数>);
+    
+    // 由文档可知，environment 是同步钩子，所以需要用tap注册(tap对应同步)，文档里这个钩子也没有参数，所以回调函数也没有参数（全查文档就完了）
+    compiler.hooks.environment.tap("TestPlugin", () => {
+      console.log("environment钩子被触发");
+    })
+  }
+}
+
+module.exports = TestPlugin;
+~~~
+
